@@ -13,7 +13,21 @@ app.use(express.urlencoded({extended: true}));
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.h7tlf.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
-  const collection = client.db(`${process.env.DB_NAME}`).collection("servicesCard");
+  const serviceCollection = client.db(`${process.env.DB_NAME}`).collection("servicesCard");
+
+  app.post('/addServiceData', (req, res) => {
+      serviceCollection.insertOne(req.body)
+      .then(data =>{
+          res.send(data.insertedCount > 0);
+      })
+  })
+
+  app.get('/getServiceData', (req, res) => {
+      serviceCollection.find()
+      .toArray((err, serviceItems) => {
+          res.send(serviceItems)
+      })
+  })
 });
 
 

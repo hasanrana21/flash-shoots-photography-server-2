@@ -54,6 +54,13 @@ client.connect(err => {
       } )
   })
 
+  app.get('/getOrdered', (req, res) => {
+      userOrderCollection.find(req.body)
+      .then((err, orderedData) => {
+          res.send(orderedData);
+      })
+  })
+
 
 });
 

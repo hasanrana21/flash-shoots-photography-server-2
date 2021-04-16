@@ -16,6 +16,7 @@ client.connect(err => {
   const serviceCollection = client.db(`${process.env.DB_NAME}`).collection("servicesCard");
   const reviewCollection = client.db(`${process.env.DB_NAME}`).collection("reviewsCard");
   const userOrderCollection = client.db(`${process.env.DB_NAME}`).collection("orderedData");
+  const adminCollection = client.db(`${process.env.DB_NAME}`).collection("Admin");
 
   app.post('/addServiceData', (req, res) => {
       serviceCollection.insertOne(req.body)
@@ -56,8 +57,16 @@ client.connect(err => {
 
   app.get('/getOrdered', (req, res) => {
       userOrderCollection.find(req.body)
-      .then((err, orderedData) => {
+      .toArray((err, orderedData) => {
           res.send(orderedData);
+      })
+  })
+
+
+  app.post('/addAdmin', (req, res) => {
+      adminCollection.insertOne(req.body)
+      .then(admin => {
+          res.send(admin.insertedCount > 0);
       })
   })
 

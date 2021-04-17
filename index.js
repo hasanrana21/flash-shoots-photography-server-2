@@ -1,5 +1,6 @@
 const express = require('express');
 const MongoClient = require('mongodb').MongoClient;
+const ObjectID = require('mongodb').ObjectID;
 const cors = require('cors');
 require('dotenv').config();
 
@@ -69,6 +70,21 @@ client.connect(err => {
           res.send(admin.insertedCount > 0);
       })
   })
+
+
+//   app.delete('/delete/:id', (req, res) => {
+//     //   const deletedID = req.params.id;
+//       serviceCollection.findOneAndDelete({_id: ObjectID(req.params.id)})
+//       .then(deleted => {
+//         console.log(deleted)
+//       })
+//   })
+
+app.post('/updateOrder', (req, res) => {
+    console.log(req.body.updateID);
+    userOrderCollection.updateOne({_id: ObjectID(req.body.updateID)}, {$set: req.body.updateStatus})
+
+})
 
 
 });

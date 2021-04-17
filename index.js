@@ -72,19 +72,27 @@ client.connect(err => {
   })
 
 
-//   app.delete('/delete/:id', (req, res) => {
-//     //   const deletedID = req.params.id;
-//       serviceCollection.findOneAndDelete({_id: ObjectID(req.params.id)})
-//       .then(deleted => {
-//         console.log(deleted)
-//       })
-//   })
+  app.delete('/delete/:id', (req, res) => {
+      
+      serviceCollection.deleteOne({_id: ObjectID(req.params.id)})
+    
+  })
 
-app.post('/updateOrder', (req, res) => {
-    console.log(req.body.updateID);
-    userOrderCollection.updateOne({_id: ObjectID(req.body.updateID)}, {$set: req.body.updateStatus})
+    app.post('/updateOrder', (req, res) => {
+        console.log(req.body.updateID);
+        userOrderCollection.updateOne({_id: ObjectID(req.body.updateID)}, {$set: req.body.updateStatus})
 
-})
+    })
+
+    
+    app.post('/getAdmin', (req, res) => {
+        const email = req.body.email;
+        console.log(email)
+        adminCollection.find({email: email})
+        .toArray((err, admin) =>{
+            res.send(admin.length > 0);
+        })
+    })
 
 
 });

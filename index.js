@@ -57,7 +57,9 @@ client.connect(err => {
   })
 
   app.get('/getOrdered', (req, res) => {
-      userOrderCollection.find(req.body)
+      console.log(req.query.email);
+      const order =req.query.email;
+      userOrderCollection.find({email: order})
       .toArray((err, orderedData) => {
           res.send(orderedData);
       })

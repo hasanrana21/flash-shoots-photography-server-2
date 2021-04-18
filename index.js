@@ -49,7 +49,7 @@ client.connect(err => {
   })
 
 
-  app.post('/addOrder', (req, res) => {
+  app.post('/addOrdered', (req, res) => {
       userOrderCollection.insertOne(req.body)
       .then(orderResult => {
           res.send(orderResult.insertedCount > 0)
@@ -85,15 +85,22 @@ client.connect(err => {
     })
 
     
-    app.post('/getAdmin', (req, res) => {
+    // app.post('/getAdmin', (req, res) => {
+    //     const email = req.body.email;
+    //     console.log(email)
+    //     adminCollection.find({email: email})
+    //     .toArray((err, admin) =>{
+    //         res.send(admin.length > 0);
+    //     })
+    // })
+
+    app.post('/Admin', (req, res) => {
         const email = req.body.email;
-        console.log(email)
         adminCollection.find({email: email})
         .toArray((err, admin) =>{
             res.send(admin.length > 0);
         })
     })
-
 
 });
 
